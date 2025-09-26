@@ -1,0 +1,164 @@
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Open Sans"), local("OpenSans"), url("fonts/open-sans-400.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Open Sans Bold"), local("OpenSans-Bold"), url("fonts/open-sans-700.woff") format("woff");
+}
+* {
+  box-sizing: border-box;
+}
+
+body {         /* font cos gris */
+  padding: 0;
+  margin: 0;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #606c71;
+}
+
+h1, h2, h3, h4, h5, h6 {  /* font títols seccions color verd */
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  color: #159957;
+}
+
+h1 {                    /* Font seccions diferents mides i línia */
+  font-size: 2.5em;
+  border-bottom: 2px solid #2c3e50;
+}
+
+h2 {
+  font-size: 2em;
+  border-bottom: 1px solid #2c3e50;
+}
+
+h3 {
+  font-size: 1.75em;
+}
+
+h4 {
+  font-size: 1.5em;
+}
+
+h5 {
+  font-size: 1.25em;
+}
+
+h6 {
+  font-size: 1em;
+}
+
+
+a {   /* estil dels links */
+  color: #1e6bb8;
+  text-decoration: none;
+}
+a:hover {   /* estil dels links si passes per sobre */
+  text-decoration: underline;
+}
+
+
+.infobox.caution {
+    background-color: #E0E0E0;  /* Fondo gris claro */
+    border: 2px solid #28a745;  /* Borde verde */
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 15px;  /* Espacio entre imagen y texto */
+    max-width: 800px; /* Ancho máximo del recuadro */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    font-size: 14px;
+    padding: 10px;
+}
+
+.infobox.caution::before {
+    content: "";
+background: url("/www/alert.png") no-repeat center;
+    background-size: cover; /* Prueba cover en lugar de contain */
+    width: 80px; /* Aumentamos el tamaño */
+    height: 80px;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.infobox.travel {
+    background-color: #E0E0E0;  /* Fondo gris claro */
+    border: 2px solid #28a745;  /* Borde verde */
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 15px;  /* Espacio entre imagen y texto */
+    max-width: 800px; /* Ancho máximo del recuadro */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    font-size: 14px;
+    padding: 10px;
+}
+
+.infobox.travel::before {
+    content: "";
+background: url("/www/travel.png") no-repeat center;
+    background-size: cover; /* Prueba cover en lugar de contain */
+    width: 80px; /* Aumentamos el tamaño */
+    height: 80px;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.infobox.circle {
+    background-color: #E0E0E0;  /* Fondo gris claro */
+    border: 2px solid #28a745;  /* Borde verde */
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 15px;  /* Espacio entre imagen y texto */
+    max-width: 800px; /* Ancho máximo del recuadro */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    font-size: 14px;
+    padding: 10px;
+}
+
+.infobox.circle::before {
+    content: "";
+background: url("/www/circle.png") no-repeat center;
+    background-size: cover; /* Prueba cover en lugar de contain */
+    width: 80px; /* Aumentamos el tamaño */
+    height: 80px;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+li.topic.nav-item.current, 
+li.topic.nav-item.current > a {
+  background-color: #159957 !important;
+  color: white !important;
+  font-weight: bold !important;
+  border-radius: 5px !important;
+  border: none !important;
+}
+.infobox.caution,
+.infobox.travel,
+.infobox.circle {
+  background-color: #E0E0E0;
+  border: 2px solid #28a745;
+  padding: 15px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 800px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  padding: 10px;
+  margin-bottom: 20px;
+}

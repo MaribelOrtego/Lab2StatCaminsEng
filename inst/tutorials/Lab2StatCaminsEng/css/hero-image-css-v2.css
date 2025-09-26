@@ -1,0 +1,110 @@
+/* CSS for the hero image and text */
+.hero-image {
+    position: relative;
+    width: 100%;
+    height: 100px; /* Adjust height as needed */
+    overflow: hidden; /* Prevent scrolling issues */
+    z-index: 1; /* Ensure the hero image stays above other content */
+}
+
+.hero-image::before {
+    content: '';
+    position: fixed; /* Fixed pseudo-element */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    /* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/imatge.png'); /* Imatge a extern accessible */
+    /* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_0984-MOrtego.jpg'); /* Imatge a extern accessible */
+	/* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_0985-MOrtego.jpg'); /* Imatge a extern accessible */
+    /*  background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_2132-MOrtego-edit.jpg'); /* Imatge a extern accessible */
+    /* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_2133-MOrtego.jpg'); /* Imatge a extern accessible */
+     background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_2134-MOrtego-edit.jpg'); /* Imatge a extern accessible */
+    /* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_2135-MOrtego.jpg'); /* Imatge a extern accessible */
+    /* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_4633_MOrtego-edit.jpg'); /* Imatge a extern accessible */
+    /* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_5419_MOrtego.JPG'); /* Imatge a extern accessible */
+	/*  BONA background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_8024_MOrtego.jpg'); /* Imatge a extern accessible */
+	/* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_7563-MOrtego-edit.jpg'); /* Imatge a extern accessible */
+    /*  BONA  background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_8216_MOrtego-edit.jpg');*/
+    /*  BONA  background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_8215_MOrtego-edit.jpg');*/
+    /*  BONA background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_8214_MOrtego-edit.jpg');*/
+    /*  background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_8213_MOrtego-edit.jpg');*/
+   /* background-image: url('https://webs.camins.upc.edu/people/ma.isabel.ortego/imageshero/IMG_8211_MOrtego-edit.jpg'); */
+	background-size: cover;
+    background-position: center;
+    z-index: -1; /* Place the pseudo-element behind the text */
+}
+
+.image-text {
+    position: fixed; /* Fix the text container */
+    top: 10%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust to truly center the text */
+    text-align: center;
+    color: black;
+    font-family: Open Sans, sans-serif;
+    z-index: 2; /* Ensure the text stays above the pseudo-element */
+}
+
+.top-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.bottom-text {
+    font-size: 18px;
+    font-weight: normal;
+}
+
+/* Asegurar que todos los elementos de navegación tengan el mismo estilo */
+.nav-tabs li a,
+.nav-pills li a,
+ul li a {
+    font-weight: bold;
+    color: #2c7c3e !important; /* Verde */
+    background-color: #d1e0d1 !important; /* Fondo más oscuro */
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-right: 5px;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    text-decoration: none;
+}
+
+/* Hover con un color más marcado */
+.nav-tabs li a:hover,
+.nav-pills li a:hover,
+ul li a:hover {
+    background-color: #a8c4a8 !important;
+    color: #1e6b30 !important;
+}
+
+/* Para el elemento activo */
+.nav-tabs li.active a,
+.nav-pills li.active a,
+ul li.active a {
+    background-color: #4c8c4c !important; /* Verde más fuerte */
+    color: white !important;
+    border-radius: 8px;
+}
+
+/* Asegurar que los subapartados también tengan estilo */
+.nav-tabs li a,
+.nav-pills li a,
+ul li a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 3px;
+    text-decoration: none;
+    background-color: #e0e0e0 !important; /* Fondo gris claro */
+    color: #2c7c3e !important; /* Verde */
+}
+
+/* Ajustar iconos en las pestañas */
+.nav-tabs li a img,
+.nav-pills li a img,
+ul li a img {
+    vertical-align: middle;
+    margin-right: 5px;
+}
