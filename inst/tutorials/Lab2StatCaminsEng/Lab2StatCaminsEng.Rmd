@@ -1,0 +1,300 @@
+---
+title: "Lab2-Descriptive Geyser"
+subtitle: "
+<div id='logo-nom-subtitle' style='text-align:center;'>
+  <img src='www/logoUPC.png' style='height:50px; display:block; margin:0 auto 5px auto;'>
+  <p style='margin:0; font-weight:bold; color:#0055A4 !important; font-size:16px;'>Maribel Ortego</p>
+</div>"
+author: "Maribel Ortego"
+date: "`r format(Sys.time(), '%Y %B %d')`"
+
+output:
+  learnr::tutorial:
+    progressive: true
+    theme:
+      bslib: true
+      bootswatch: minty
+    css:
+      - "css/styles.css"
+      - "css/hero-image-css-v2.css"
+    includes:
+      in_header: "www/hero-image-PiE.html"
+    number_sections: TRUE
+    toc: true
+    toc_depth: 4
+    toc_float: true
+
+runtime: shiny_prerendered
+bibliography: geyser.bib 
+---
+
+```{r, label="generaloptions", include=FALSE}
+# Configuració general del tutorial
+library(learnr)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.width = 6,
+  out.width = "50%",
+  fig.align = "center",
+  fig.caption = TRUE
+)
+```
+
+# 📌 Introduction
+In this Lab2 we will work with the **Geyser** data set, performing a univariate and bivariate descriptive analysis, as well as an approximation to linear regression and the definition of factors.
+
+::: {.infobox .caution data-latex="{caution}"}
+**Remember to set the working directory** before starting to read the data.
+:::
+
+## The context: Old Faithful
+Old Faithful is a geyser located in Yellowstone National Park (Wyoming, United States), a large tourist attraction.
+In @DenPre1987 the dataset is presented: "From 1 August to 8 August 1978, a group of
+rangers (park police) and naturalists recorded the duration of the eruption and the interval until the next eruption (in minutes) of the Old Faithful geyser eruptions, between 6 am and midnight.
+The intention of the study was to predict the time of the next eruption, in order to show it at the Center of Visitors, so that visitors to Yellowstone Park could manage their time well."
+
+##  Libraries and reading data
+
+Once the working directory is established, we will start by calling the libraries we need in the session. In Lab1 we installed the library `car`. If for any reason you do not have it installed, you must review the contents of Lab1.
+
+```{r llibreries}
+library(here)
+library(car)
+library(nnet)
+```
+
+::: {.infobox .circle data-latex="{circle}"}
+
+***WARNING!***
+
+Open file **"DadesGeyser.csv"** using the Notebook (Not MsExcel).  
+Check the file format: how are the columns separated? with tab, comma, semicolon, space?; Are variable names included? Are there initial rows with comments?
+:::
+
+Let's read the data set, taking into account its structure, and give it a name.
+
+::: {.infobox .circle data-latex="{circle}"}
+
+***WARNING!***
+
+To prevent the tutorial from having problems with the location of the files in the different operating systems (problem that we found in Lab1), we will use the library `here`. 
+:::
+
+Let's establish the folder of reference for the tutorial:
+
+```{r, establimhere}
+<<<<<<< HEAD
+here::i_am("README2.md")
+=======
+here::i_am("README.md")
+>>>>>>> 05305541fc810960acef107b8fa196edfb8d3f81
+
+```
+
+And now we read the data file indicating its structure:
+
+::: {.infobox .caution data-latex="{caution}"}
+***IMPORTANT***: R is case sensitive: *Dades* is different to *dades*.
+:::
+
+```{r lectura_dades, echo=TRUE}
+dadesgeyser <- read.table(here("DadesGeyser.csv"),
+             header=TRUE, sep=";", na.strings="NA", dec=".", strip.white=TRUE)
+```
+Given that the Duration and Interval variables are positive and have a relative scale, we will generate two new variables. We will apply the logarithm (natural, neperian) and store the new variables in the dataframe.
+
+```{r}
+dadesgeyser$logdurada <- with(dadesgeyser, log(Durada))
+dadesgeyser$loginterval <- with(dadesgeyser, log(Interval))
+```
+
+# Univariate descriptive
+
+## Numerical summaries:
+
+The summary of the dataset provides its basic descriptive statistics :
+
+```{r}
+summary(dadesgeyser[,c("Durada", "Interval", "logdurada", "loginterval")])
+```
+
+## Histograms 
+
+Variables are continuous. We can plot them using histograms.
+
+```{r histogrames, echo=TRUE, fig.cap="Histogrames de les variables Durada i Interval en escala original i en escala additiva"}
+hist(dadesgeyser$logdurada, breaks="Sturges", col="darkblue")
+hist(dadesgeyser$loginterval, breaks="Sturges", col="darkgreen")
+```
+
+::: {.infobox .circle data-latex="{circle}"}
+Plot the variables. Look at the histograms. Where is the center of mass? What is its shape? Verify your observations with the numerical values we just obtained. Note that histograms have two populations: short interval durations and long interval durations.
+:::
+
+## Boxplot
+The representation in the form of a boxplot allows us to observe if there are any outliers. We use the `par` argument to display two plots together:
+
+```{r, fig.cap="Boxplot per a logdurada i loginterval"}
+par(mfrow=c(1,2))
+boxplot(dadesgeyser$logdurada, ylab="logdurada")
+boxplot(dadesgeyser$loginterval, ylab="loginterval")
+par(mfrow=c(1,1))
+```
+
+The _empirical cumulative distribution function_, ecdf) represents the cumulative frequencies of the sample. In this graph we can easily obtain the percentiles of interest.
+
+```{r, fig.cap="Funcions de distribució empírica per a logdurada i loginterval"}
+plot.ecdf(dadesgeyser$logdurada, xlab="logdurada", main="Funció de distribució mostral")
+plot.ecdf(dadesgeyser$loginterval, xlab="loginterval", main="Funció de distribució mostral")
+```
+
+::: {.infobox .circle data-latex="{circle}"}
+Observe the empirical distribution functions of the variables. Which are the 50th percentile of each variable? and the 90th percentile?
+:::
+
+# Introduction of a factor
+
+Factors help us refine the description of the data. Sometimes they are already included among the variables. On other occasions, the first analysis of the data allows us to define new ones.
+
+## Let's define a factor
+
+Observing the dispersion diagram of the two variables we have seen that there are two point clouds. It seems that short durations are related to short intervals and long durations with long intervals (with some noise in between). Let us take advantage of this observation to define a new variable, which will be the "Short Interval" factor.
+
+Step by step: 1) we define the interval indicator variable. We select the observations with an interval less than a given value. This is a logical condition, which we keep as numeric and in case, we give it the form of vector. The 1 will be short intervals and the 0 will be long intervals. 2) We add this vector to our dataframe and 3) We tell R that this numerical vector of 0 and 1 is actually a qualitative variable (factor), and that it can replace 0 and 1 with the corresponding label:.
+
+::: {.infobox .caution data-latex="{caution}"}
+When setting labels it is important to respect the order. 0 corresponds to long and 1 to short
+:::
+
+```{r}
+indicadorinterval <- as.vector((as.numeric(dadesgeyser[,"Interval"]<65)))
+
+dadesgeyser <- cbind(dadesgeyser, indicadorinterval)
+
+dadesgeyser$indicadorinterval <- factor(dadesgeyser$indicadorinterval, labels=c('intèrval llarg','intèrval curt'))
+```
+
+### 🖊Exercise: Create a summary of the factor indicadorinterval
+```{r exercici_summary, exercise=TRUE}
+```
+
+We can use the factor to provide nuances to the graphical representations. For example, in a boxplot:
+
+```{r, fig.cap="Boxplot de loginterval segons l’indicador d’interval curt o llarg"}
+boxplot(loginterval~indicadorinterval, ylab="loginterval", xlab="indicadorinterval", data=dadesgeyser)
+```
+
+#  Bivariate descriptive
+
+The world is not univariate. Before studying multivariate variables, we can describe the bivariate relationships between variables.
+
+## Scatterplots
+
+The scatterplot or dispersion diagram allows us to visualize the bivariate relationship between variables.
+
+The `scatterplot` function of `car` allows us to perform this representation.
+
+```{r, fig.cap="Diagrama de dispersió de loginterval en funció de logdurada"}
+car::scatterplot(loginterval~logdurada, data=dadesgeyser)
+```
+
+By default, there are some extra lines included in the plot. However, we do not know how to interpret them at the moment. If we read the help, we can see that there are some arguments that can be set as FALSE so that these lines do not appear:
+
+```{r, fig.cap="Diagrama de dispersió net de loginterval vs logdurada"}
+car::scatterplot(loginterval~logdurada, smooth=FALSE, regLine=FALSE, boxplots=FALSE, data=dadesgeyser)
+```
+
+If you look at the graph, you may realize that it is a _zoom_ in the data. We want to modify the axes to represent from 0. That is, add arguments `xlim` and `ylim`. 
+
+```{r, fig.cap="Modificació dels eixos del diagrama de dispersió per loginterval i logdurada"}
+car::scatterplot(loginterval~logdurada, smooth=FALSE, regLine=FALSE, boxplots=FALSE, data=dadesgeyser, xlim=c(0,1), ylim=c(0,4.5))
+```
+
+### 🖊Exercise: What were the maximum and minimum values of the variables? Need to modify something on the graph? Write the corresponding code.
+```{r exercici_valorsmaxmin, exercise=TRUE}
+
+```
+
+## Assessment of the lineal relationship
+
+Covariance measures the strength of the linear dependence of two variables. It is a generalization of the concept of variance. If the covariance is null, there is no linear dependence:
+
+```{r, cov}
+cov(dadesgeyser$logdurada, dadesgeyser$loginterval)
+```
+
+The problem with covariance is that non-zero values are not easily interpretable. 
+
+The Pearson linear correlation coefficient measures the _linear_ dependence of the variables. Hey! Be careful, because in everyday language we use correlation as a synonym for dependency. Pearson's linear correlation coefficient is a normalized version of covariance, which facilitates its interpretation :
+
+\[
+r_{XY}=\frac{Cov(X,Y)}{\sqrt{Var[X]}\sqrt{Var[Y]}}  \ .
+\]
+
+Remember that the coefficient takes values between [-1,1] and that if two variables have correlation 0, we say that they are *uncorrelated*.
+
+In the scatterplot we have observed a certain linear dependence between the variables, but not perfect. We calculate the corresponding Pearson correlation coefficient:
+
+```{r}
+cor(dadesgeyser[,c("logdurada","loginterval")], use="complete")
+```
+
+We observe that we obtain a medium-high correlation value, which corresponds to what we had observed in the graph.
+
+There are other correlation coefficients (Kendall, Spearman), which measure more general dependencies. We won't use them for now.
+
+##  Simple linear regression (least squares)
+
+We want to draw the linear regression line of Y with respect to X using the least squares method to estimate the coefficients, $$  Y= \beta_0 + \beta_1 X $$.
+
+We can get the analytic expression of the coefficients $\beta_0$ (intercept) and $\beta'1$ (slope) of the line (you can find the process in the Notes):
+
+\[ 
+\beta_1= \frac{Cov(X,Y)}{Var[X]}  
+\]
+\[ 
+\beta_0= \bar{y}- \beta_1 \bar{x}
+\]
+
+Therefore, before calculating the coefficients, we calculate the intermediate values that we will need:
+
+```{r}
+mean(dadesgeyser$logdurada)
+mean(dadesgeyser$loginterval)
+var(dadesgeyser$logdurada)
+var(dadesgeyser$loginterval)
+cov(dadesgeyser$logdurada, dadesgeyser$loginterval)
+```
+
+### 🖊Exercise: Compute the slope and the intercept of the regression line:
+```{r exercici_pendentiordenada, exercise=TRUE}
+ 
+```
+
+### 🖊Exercise: Plot the scatterplot of both variables and add the regression line using the instruction `abline`:
+```{r exercici_regressio, exercise=TRUE}
+ 
+```
+# Conclussion {-}
+
+With this section we have finished the descriptive analysis introduction and the Lab2 simple regression model. In the next session we will delve into the multiple linear regression model.
+
+# References
+
+<div id="refs"></div>
+
+#  About / Canvis {-}
+
+Material created by M. Ortego for the Subjects of the statistics area of ETSECCPB - UPC.
+
+Version 1.0
+
+#  Credits {-}
+
+<a href="https://www.flaticon.com/free-icons/travel" title="travel icons">Travel icons created by IconBaandar - Flaticon</a>
+
+<a href="https://www.flaticon.com/free-icons/alert" title="alert icons">Alert icons created by Creatype - Flaticon</a>
+
+<a href="https://www.flaticon.com/free-icons/find" title="find icons">Find icons created by hqrloveq - Flaticon</a>
+
+<a href="https://www.flaticon.com/free-icons/eye" title="eye icons">Eye icons created by Freepik - Flaticon</a>
