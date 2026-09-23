@@ -13,7 +13,12 @@ library("learnr")
 library("devtools")
 
 ## Download the tutorial from the repository:
-devtools::install_github("MaribelOrtego/Lab2StatCaminsEng")
+
+## Updated instruction. Careful! From R 4.6. it asks for Rtools/Xcode
+pak::pak("MaribelOrtego/Lab2StatCaminsEng")
+## Deprecated instruction. Still works
+#devtools::install_github("MaribelOrtego/Lab2StatCaminsEng")
+
 ## Execute the tutorial:
 learnr::run_tutorial("Lab2StatCaminsEng", "Lab2StatCaminsEng")
 
