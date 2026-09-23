@@ -10,7 +10,7 @@ date: "`r format(Sys.time(), '%Y %B %d')`"
 
 output:
   learnr::tutorial:
-    progressive: true
+    progressive: false
     theme:
       bslib: true
       bootswatch: minty
@@ -40,14 +40,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-# 📌 Introduction
+## 📌 Introduction
 In this Lab2 we will work with the **Geyser** data set, performing a univariate and bivariate descriptive analysis, as well as an approximation to linear regression and the definition of factors.
 
 ::: {.infobox .caution data-latex="{caution}"}
 **Remember to set the working directory** before starting to read the data.
 :::
 
-## The context: Old Faithful
+### The context: Old Faithful
 Old Faithful is a geyser located in Yellowstone National Park (Wyoming, United States), a large tourist attraction.
 In @DenPre1987 the dataset is presented: "From 1 August to 8 August 1978, a group of
 rangers (park police) and naturalists recorded the duration of the eruption and the interval until the next eruption (in minutes) of the Old Faithful geyser eruptions, between 6 am and midnight.
@@ -103,9 +103,7 @@ dadesgeyser$logdurada <- with(dadesgeyser, log(Durada))
 dadesgeyser$loginterval <- with(dadesgeyser, log(Interval))
 ```
 
-# Univariate descriptive
-
-## Numerical summaries:
+## Univariate description: Numerical
 
 The summary of the dataset provides its basic descriptive statistics :
 
@@ -113,7 +111,8 @@ The summary of the dataset provides its basic descriptive statistics :
 summary(dadesgeyser[,c("Durada", "Interval", "logdurada", "loginterval")])
 ```
 
-## Histograms 
+## Plots
+### Histograms 
 
 Variables are continuous. We can plot them using histograms.
 
@@ -126,7 +125,7 @@ hist(dadesgeyser$loginterval, breaks="Sturges", col="darkgreen")
 Plot the variables. Look at the histograms. Where is the center of mass? What is its shape? Verify your observations with the numerical values we just obtained. Note that histograms have two populations: short interval durations and long interval durations.
 :::
 
-## Boxplot
+### Boxplot
 The representation in the form of a boxplot allows us to observe if there are any outliers. We use the `par` argument to display two plots together:
 
 ```{r, fig.cap="Boxplot per a logdurada i loginterval"}
@@ -147,11 +146,11 @@ plot.ecdf(dadesgeyser$loginterval, xlab="loginterval", main="Funció de distribu
 Observe the empirical distribution functions of the variables. Which are the 50th percentile of each variable? and the 90th percentile?
 :::
 
-# Introduction of a factor
+## Introducing a factor
 
 Factors help us refine the description of the data. Sometimes they are already included among the variables. On other occasions, the first analysis of the data allows us to define new ones.
 
-## Let's define a factor
+### Let's define a factor
 
 Observing the dispersion diagram of the two variables we have seen that there are two point clouds. It seems that short durations are related to short intervals and long durations with long intervals (with some noise in between). Let us take advantage of this observation to define a new variable, which will be the "Short Interval" factor.
 
@@ -169,7 +168,7 @@ dadesgeyser <- cbind(dadesgeyser, indicadorinterval)
 dadesgeyser$indicadorinterval <- factor(dadesgeyser$indicadorinterval, labels=c('intèrval llarg','intèrval curt'))
 ```
 
-### 🖊Exercise: Create a summary of the factor indicadorinterval
+#### 🖊Exercise: Create a summary of the factor indicadorinterval
 ```{r exercici_summary, exercise=TRUE}
 ```
 
@@ -179,11 +178,11 @@ We can use the factor to provide nuances to the graphical representations. For e
 boxplot(loginterval~indicadorinterval, ylab="loginterval", xlab="indicadorinterval", data=dadesgeyser)
 ```
 
-#  Bivariate descriptive
+##  Bivariate descriptive
 
 The world is not univariate. Before studying multivariate variables, we can describe the bivariate relationships between variables.
 
-## Scatterplots
+### Scatterplots
 
 The scatterplot or dispersion diagram allows us to visualize the bivariate relationship between variables.
 
@@ -205,12 +204,12 @@ If you look at the graph, you may realize that it is a _zoom_ in the data. We wa
 car::scatterplot(loginterval~logdurada, smooth=FALSE, regLine=FALSE, boxplots=FALSE, data=dadesgeyser, xlim=c(0,1), ylim=c(0,4.5))
 ```
 
-### 🖊Exercise: What were the maximum and minimum values of the variables? Need to modify something on the graph? Write the corresponding code.
+#### 🖊Exercise: What were the maximum and minimum values of the variables? Need to modify something on the graph? Write the corresponding code.
 ```{r exercici_valorsmaxmin, exercise=TRUE}
 
 ```
 
-## Assessment of the lineal relationship
+### Assessment of the linear relationship
 
 Covariance measures the strength of the linear dependence of two variables. It is a generalization of the concept of variance. If the covariance is null, there is no linear dependence:
 
@@ -261,30 +260,30 @@ var(dadesgeyser$loginterval)
 cov(dadesgeyser$logdurada, dadesgeyser$loginterval)
 ```
 
-### 🖊Exercise: Compute the slope and the intercept of the regression line:
+#### 🖊Exercise: Compute the slope and the intercept of the regression line:
 ```{r exercici_pendentiordenada, exercise=TRUE}
  
 ```
 
-### 🖊Exercise: Plot the scatterplot of both variables and add the regression line using the instruction `abline`:
+#### 🖊Exercise: Plot the scatterplot of both variables and add the regression line using the instruction `abline`:
 ```{r exercici_regressio, exercise=TRUE}
  
 ```
-# Conclussion {-}
+## Conclussion {-}
 
 With this section we have finished the descriptive analysis introduction and the Lab2 simple regression model. In the next session we will delve into the multiple linear regression model.
 
-# References
+### References {-}
 
 <div id="refs"></div>
 
-#  About / Canvis {-}
+###  About / Canvis {-}
 
 Material created by M. Ortego for the Subjects of the statistics area of ETSECCPB - UPC.
 
-Version 1.0
+Version 1.1
 
-#  Credits {-}
+###  Credits {-}
 
 <a href="https://www.flaticon.com/free-icons/travel" title="travel icons">Travel icons created by IconBaandar - Flaticon</a>
 

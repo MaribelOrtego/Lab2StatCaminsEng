@@ -1,6 +1,6 @@
 Package: Lab2StatCaminsEng
 Title: Lab2 Tutorial StatCamins. English version.
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Maribel", "Ortego", 
     email= "ma.isabel.ortego@upc.edu", 
